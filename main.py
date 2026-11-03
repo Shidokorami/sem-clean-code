@@ -1,6 +1,5 @@
 from order_processor import OrderProcessor
 
-
 if __name__ == "__main__":
     processor = OrderProcessor()
 

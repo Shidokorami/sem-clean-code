@@ -4,7 +4,6 @@ from customer_types import CustomerType
 from dtos import Order, OrderItem
 from product_prices import PRODUCT_PRICES
 
-
 SAVE10 = "SAVE10"
 
 ONE = Decimal("1.00")

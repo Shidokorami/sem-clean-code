@@ -1,8 +1,10 @@
 from customer_types import CustomerType
 from dtos import Order, OrderItem
 
+
 class OrderParseError(ValueError):
     """Dane wejściowe nie mają poprawnego formatu zamówienia."""
+
 
 def parse_customer_type(raw_customer_type: str) -> CustomerType:
     return CustomerType(raw_customer_type.strip().upper())
@@ -22,10 +24,11 @@ def parse_items(raw_items: str) -> tuple[OrderItem, ...]:
 
     return tuple(items)
 
+
 def parse_order(raw_order: str) -> Order:
     try:
-        customer_name, email, raw_customer_type, raw_items, coupon = (
-            raw_order.split("|")
+        customer_name, email, raw_customer_type, raw_items, coupon = raw_order.split(
+            "|"
         )
 
         return Order(
@@ -36,6 +39,4 @@ def parse_order(raw_order: str) -> Order:
             coupon=coupon.strip().upper(),
         )
     except ValueError as error:
-        raise OrderParseError(
-            "Niepoprawny format zamówienia."
-        ) from error
+        raise OrderParseError("Niepoprawny format zamówienia.") from error

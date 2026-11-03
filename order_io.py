@@ -1,6 +1,5 @@
 from pathlib import Path
 
-
 ORDERS_FILE = Path("orders.txt")
 
 

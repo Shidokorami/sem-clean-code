@@ -8,10 +8,7 @@ def format_money(amount: Decimal) -> str:
 
 
 def format_order_items(order: Order) -> str:
-    return "".join(
-        f"{item.product_name}x{item.quantity};"
-        for item in order.items
-    )
+    return "".join(f"{item.product_name}x{item.quantity};" for item in order.items)
 
 
 def format_order(order: Order, total_price: Decimal) -> str:

@@ -5,5 +5,3 @@ class CustomerType(str, Enum):
     REGULAR = "REGULAR"
     VIP = "VIP"
     STUDENT = "STUDENT"
-
-    

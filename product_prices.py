@@ -1,6 +1,5 @@
 from decimal import Decimal
 
-
 BOOK = "BOOK"
 PEN = "PEN"
 BAG = "BAG"
