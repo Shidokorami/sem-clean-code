@@ -23,7 +23,7 @@ COUPON_DISCOUNTS: dict[str, Decimal] = {
 }
 
 
-def calculate_items_subtotal(items: list[OrderItem]) -> Decimal:
+def calculate_items_subtotal(items: tuple[OrderItem, ...]) -> Decimal:
     total = Decimal("0.00")
 
     for item in items:

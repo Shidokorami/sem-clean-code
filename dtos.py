@@ -14,5 +14,5 @@ class Order:
     customer_name: str
     email: str
     customer_type: CustomerType
-    items: list[OrderItem]
+    items: tuple[OrderItem, ...]
     coupon: str

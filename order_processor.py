@@ -2,7 +2,7 @@ from decimal import Decimal
 
 from order_formatter import format_money, format_order
 from order_io import save_order, send_order_notification
-from order_parser import parse_order
+from order_parser import parse_order, OrderParseError
 from pricing import calculate_total_price
 
 
@@ -30,24 +30,28 @@ class OrderProcessor:
     ) -> str:
         try:
             order = parse_order(raw_order)
-            total_price = self._price_calculator(order)
-            output = self._order_formatter(order, total_price)
+        except OrderParseError:
+            return "ERROR|INVALID_ORDER"
 
-            self._processed_order_count += 1
-            self._orders_total += total_price
+        total_price = self._price_calculator(order)
+        output = self._order_formatter(order, total_price)
 
-            if save:
+        self._processed_order_count += 1
+        self._orders_total += total_price
+
+        if save:
+            try:
                 self._order_saver(output)
+            except OSError:
+                return "ERROR|SAVE_FAILED"
 
-            if send:
-                self._order_notifier(order.email, output)
+        if send:
+            self._order_notifier(order.email, output)
 
-            if verbose:
-                print(output)
+        if verbose:
+            print(output)
 
-            return output
-        except Exception:
-            return "ERROR"
+        return output
 
     def build_report(self, verbose: bool) -> str:
         report = (
