@@ -1,16 +1,18 @@
-from decimal import Decimal
+from decimal import ROUND_HALF_EVEN, Decimal
 
 from dtos import Order
 
-
-def format_money(amount: Decimal) -> str:
-    return f"{amount:.2f}"
+CENT = Decimal("0.01")
 
 
-def format_order_items(order: Order) -> str:
-    return "".join(f"{item.product_name}x{item.quantity};" for item in order.items)
+class OrderFormatter:
+    def format_money(self, amount: Decimal) -> str:
+        rounded = amount.quantize(CENT, rounding=ROUND_HALF_EVEN)
+        return f"{rounded:.2f}"
 
+    def format_order(self, order: Order, total_price: Decimal) -> str:
+        item_details = self._format_items(order)
+        return f"ORDER|{order.customer_name}|{item_details}|{self.format_money(total_price)}"
 
-def format_order(order: Order, total_price: Decimal) -> str:
-    item_details = format_order_items(order)
-    return f"ORDER|{order.customer_name}|{item_details}|{format_money(total_price)}"
+    def _format_items(self, order: Order) -> str:
+        return "".join(f"{item.product_name}x{item.quantity};" for item in order.items)

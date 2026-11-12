@@ -2,6 +2,7 @@ from decimal import Decimal
 
 from customer_types import CustomerType
 from dtos import Order, OrderItem
+from exceptions import UnknownProductError
 from product_prices import PRODUCT_PRICES
 
 SAVE10 = "SAVE10"
@@ -26,7 +27,12 @@ def calculate_items_subtotal(items: tuple[OrderItem, ...]) -> Decimal:
     total = Decimal("0.00")
 
     for item in items:
-        price = PRODUCT_PRICES.get(item.product_name, Decimal("0.00"))
+        try:
+            price = PRODUCT_PRICES[item.product_name]
+        except KeyError as error:
+            raise UnknownProductError(
+                f"Unknown product: {item.product_name}."
+            ) from error
         total += price * item.quantity
 
     return total
